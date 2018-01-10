@@ -1,0 +1,39 @@
+{
+  "name": "tipsi-router",
+  "version": "1.0.0",
+  "description": "React and RN router solution",
+  "main": "index.js",
+  "scripts": {
+    "test": "eslint '*.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tipsi/tipsi-router.git"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "router"
+  ],
+  "author": "Tipsi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tipsi/tipsi-router/issues"
+  },
+  "homepage": "https://github.com/tipsi/tipsi-router#readme",
+  "peerDependencies": {
+    "@expo/ex-navigation": "isnifer/ex-navigation#6f1c6ca",
+    "history": "4.7.2",
+    "react-native-navigation": "1.1.335",
+    "react-router-dom": "4.2.2",
+    "react": "16.2.0",
+    "react-native": "0.50.4"
+  },
+  "devDependencies": {
+    "eslint": "4.15.0",
+    "eslint-config-tipsi": "2.0.2"
+  },
+  "eslintConfig": {
+    "extends": "tipsi"
+  }
+}
