@@ -6,9 +6,19 @@ import { compile } from 'path-to-regexp'
 
 export default class TipsiRouter {
   constructor(initialRoute, routes, useMemoryHistory = false) {
-    this.history = useMemoryHistory ? createMemoryHistory() : createHistory()
+    this.history = useMemoryHistory
+      ? this.createMemoryHistory(initialRoute, routes)
+      : createHistory()
     this.navigationProvider = this.createRouter(initialRoute, routes)
     this.routes = routes
+  }
+
+  /* eslint-disable class-methods-use-this */
+  createMemoryHistory(initialRoute, routes) {
+    const initialEntries = Object.values(routes).map(route => route.path)
+    const initialIndex = initialEntries.indexOf(initialRoute)
+
+    return createMemoryHistory({ initialEntries, initialIndex })
   }
 
   createRouter(initialRoute, routes) {
@@ -16,9 +26,11 @@ export default class TipsiRouter {
       memo.concat(
         <Route
           key={key}
-          exact={route.path === initialRoute}
+          exact={route.path === '/'}
           path={route.path}
-          component={route.component}
+          render={props => (
+            <route.component {...props.history.location.state} />
+          )}
         />
       )
     ), [])
@@ -32,36 +44,49 @@ export default class TipsiRouter {
     )
   }
 
-  setTitle = () => {}
+  setTitle() {}
 
-  push = (event, route, paramsOrOptions = {}) => {
+  push(e, route, paramsOrOptions = {}) {
+    if (e) {
+      e.preventDefault()
+    }
     const toPath = compile(route.path)
     const path = toPath(paramsOrOptions)
-    this.history.push(path)
+    const { config, ...params } = paramsOrOptions
+    this.history.push(path, params)
   }
 
-  pop = (event) => {
-    event.preventDefault()
+  pop(e) {
+    if (e) {
+      e.preventDefault()
+    }
     this.history.goBack()
   }
 
-  popToTop = (event) => {
-    event.preventDefault()
+  popToTop(e) {
+    if (e) {
+      e.preventDefault()
+    }
   }
 
-  replace = (event, route, paramsOrOptions = {}) => {
-    event.preventDefault()
-
+  replace(e, route, paramsOrOptions = {}) {
+    if (e) {
+      e.preventDefault()
+    }
     const toPath = compile(route.path)
     const path = toPath(paramsOrOptions)
     this.history.replace(path)
   }
 
-  showModal = (event) => {
-    event.preventDefault()
+  showModal(e) {
+    if (e) {
+      e.preventDefault()
+    }
   }
 
-  dismissModal = (event) => {
-    event.preventDefault()
+  dismissModal(e) {
+    if (e) {
+      e.preventDefault()
+    }
   }
 }

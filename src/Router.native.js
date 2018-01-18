@@ -117,20 +117,28 @@ export default class TipsiRouter {
 
   showModal = (e, route, paramsOrOptions = {}, delay = 0) => {
     const { config = {}, ...params } = paramsOrOptions
-    const navigator = this.navigationContext.getNavigator(rootNavigatorID)
+    // const navigator = this.navigationContext.getNavigator(rootNavigatorID)
+    const navigatorApp = this.navigationContext.getNavigator('app')
+    const navigatorMaster = this.navigationContext.getNavigatorByUID(
+      navigatorApp.parentNavigatorUID
+    )
     const expoRoute = this.navigationContext._router.getRoute(this.routeName(route), params)
 
     expoRoute.config = { ...config }
 
     const pushScene = () => this.navigationContext.performAction(({ stacks }) => {
-      stacks(navigator.navigatorUID).push(expoRoute)
+      stacks(navigatorMaster.navigatorUID).push(expoRoute)
     })
 
     delay ? setTimeout(pushScene, delay) : pushScene()
   }
 
   dismissModal = () => {
-    this.navigationContext.getNavigator(rootNavigatorID).pop()
+    const navigatorApp = this.navigationContext.getNavigator('app')
+    const navigatorMaster = this.navigationContext.getNavigatorByUID(
+      navigatorApp.parentNavigatorUID
+    )
+    navigatorMaster.pop()
   }
 
   routeName = route => findKey(this.routes, { path: route.path })
