@@ -46,6 +46,8 @@ export default class TipsiRouter {
 
   setTitle() {}
 
+  config() {}
+
   push(e, route, paramsOrOptions = {}) {
     if (e) {
       e.preventDefault()
