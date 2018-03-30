@@ -29,7 +29,7 @@ export default class TipsiRouter {
           exact={route.path === '/'}
           path={route.path}
           render={props => (
-            <route.component {...props.history.location.state} />
+            <route.component {...props} {...props.history.location.state} />
           )}
         />
       )
@@ -45,6 +45,10 @@ export default class TipsiRouter {
   }
 
   setTitle() {}
+
+  getCurrentRoute() {
+    return this.history.location.pathname
+  }
 
   config() {}
 
@@ -69,6 +73,7 @@ export default class TipsiRouter {
     if (e) {
       e.preventDefault()
     }
+    this.history.go(-this.history.index)
   }
 
   replace(e, route, paramsOrOptions = {}) {

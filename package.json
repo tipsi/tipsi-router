@@ -1,10 +1,12 @@
 {
   "name": "tipsi-router",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "React and RN router solution",
   "main": "index.js",
   "scripts": {
-    "test": "eslint index.js '**/*.js'"
+    "test": "NODE_ENV=test jest --color",
+    "test:watch": "jest --watch",
+    "lint": "eslint index.js '**/*.js'"
   },
   "repository": {
     "type": "git",
@@ -30,13 +32,30 @@
     "react-native": "0.50.4"
   },
   "devDependencies": {
+    "babel-jest": "22.4.3",
+    "babel-preset-env": "1.6.1",
+    "babel-preset-react": "6.24.1",
+    "babel-preset-stage-0": "6.24.1",
+    "enzyme": "3.3.0",
+    "enzyme-adapter-react-16": "1.1.1",
     "eslint": "4.15.0",
-    "eslint-config-tipsi": "2.0.2"
+    "eslint-config-tipsi": "2.0.2",
+    "history": "4.7.2",
+    "jest": "22.4.3",
+    "react": "16.3.0",
+    "react-dom": "16.3.0",
+    "react-router-dom": "4.2.2"
   },
   "eslintConfig": {
     "extends": "tipsi"
   },
   "dependencies": {
     "path-to-regexp": "2.1.0"
+  },
+  "jest": {
+    "setupFiles": [
+      "./__tests__/setup/enzymeConfig.js"
+    ],
+    "testRegex": "__tests__/.*.test.js$"
   }
 }

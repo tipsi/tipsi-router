@@ -13,6 +13,7 @@ const coreMethodFields = [
   'dismissModal',
   'config',
   'setTitle',
+  'getCurrentRoute',
   'updateParams',
   'updateTitle',
 ]

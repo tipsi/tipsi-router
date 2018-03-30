@@ -40,6 +40,8 @@ export default class TipsiRouter {
 
   getNavigatorID = () => this.modalNavigatorID || this.navigatorID
 
+  getCurrentRoute = () => {}
+
   config = () => {}
 
   setTitle = title => (
