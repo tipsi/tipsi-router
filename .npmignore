@@ -2,3 +2,7 @@
 *~
 Makefile
 *.tgz
+.babelrc
+.editorconfig
+.eslintrc.js
+.travis.yml

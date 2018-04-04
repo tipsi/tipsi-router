@@ -4,6 +4,11 @@ import createHistory from 'history/createBrowserHistory'
 import createMemoryHistory from 'history/createMemoryHistory'
 import { compile } from 'path-to-regexp'
 
+// Remove warnings
+export const NavigationStyles = {}
+export function NavigationReducer() {}
+export function createNavigationEnabledStore() {}
+
 export default class TipsiRouter {
   constructor(initialRoute, routes, useMemoryHistory = false) {
     this.history = useMemoryHistory

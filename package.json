@@ -1,6 +1,6 @@
 {
   "name": "tipsi-router",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "React and RN router solution",
   "main": "index.js",
   "scripts": {
