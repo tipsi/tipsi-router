@@ -10,10 +10,11 @@ export function NavigationReducer() {}
 export function createNavigationEnabledStore() {}
 
 export default class TipsiRouter {
-  constructor(initialRoute, routes, useMemoryHistory = false) {
+  constructor(initialRoute, routes, useMemoryHistory = false, defaultRouteConfig = {}) {
+    this.defaultRouteConfig = defaultRouteConfig
     this.history = useMemoryHistory
       ? this.createMemoryHistory(initialRoute, routes)
-      : createHistory()
+      : createHistory({ basename: defaultRouteConfig.basename || '/' })
     this.navigationProvider = this.createRouter(initialRoute, routes)
     this.routes = routes
   }
@@ -41,7 +42,7 @@ export default class TipsiRouter {
     ), [])
 
     return (
-      <Router history={this.history}>
+      <Router history={this.history} {...this.defaultRouteConfig}>
         <Switch>
           {elements}
         </Switch>
