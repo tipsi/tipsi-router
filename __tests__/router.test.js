@@ -36,7 +36,6 @@ describe('Router', () => {
   }
 
   const wrapper = mount(createStackNavigation('/', routes, true))
-  // console.log(wrapper.debug())
 
   test('Push', () => {
     Router.push(null, Router.routes.about)
