@@ -32,7 +32,7 @@ export default class TipsiRouter {
       memo.concat(
         <Route
           key={key}
-          exact={route.path === '/'}
+          exact={route.exact || route.path === '/'}
           path={route.path}
           render={props => (
             <route.component {...props} {...props.history.location.state} />

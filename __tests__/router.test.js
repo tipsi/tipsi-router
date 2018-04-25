@@ -28,6 +28,11 @@ describe('Router', () => {
       path: '/details',
       component: DummyComponent('Details'),
     },
+    exact: {
+      path: '/exact',
+      component: DummyComponent('Exact'),
+      exact: true,
+    },
   }
 
   const wrapper = mount(createStackNavigation('/', routes, true))
@@ -69,5 +74,32 @@ describe('Router', () => {
     spyOn(Router, 'dismissModal')
     Router.dismissModal()
     expect(Router.dismissModal).toHaveBeenCalled()
+  })
+
+  test('ExactPath', () => {
+    Router.push(null, Router.routes.exact)
+    wrapper.update()
+    expect(Router.getCurrentRoute()).toEqual('/exact')
+    expect(
+      wrapper.findWhere(child => child.prop('path') === Router.routes.exact.path).prop('exact')
+    ).toEqual(true)
+  })
+
+  test('ExactRootPath', () => {
+    Router.push(null, Router.routes.home)
+    wrapper.update()
+    expect(Router.getCurrentRoute()).toEqual('/')
+    expect(
+      wrapper.findWhere(child => child.prop('path') === Router.routes.home.path).prop('exact')
+    ).toEqual(true)
+  })
+
+  test('NotExactPath', () => {
+    Router.push(null, Router.routes.about)
+    wrapper.update()
+    expect(Router.getCurrentRoute()).toEqual('/about')
+    expect(
+      wrapper.findWhere(child => child.prop('path') === Router.routes.about.path).prop('exact')
+    ).toEqual(false)
   })
 })
