@@ -3,6 +3,7 @@ import { Router, Switch, Route } from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory'
 import createMemoryHistory from 'history/createMemoryHistory'
 import { compile } from 'path-to-regexp'
+import { parse, stringify } from 'qs'
 
 // Remove warnings
 export const NavigationStyles = {}
@@ -56,16 +57,35 @@ export default class TipsiRouter {
     return this.history.location.pathname
   }
 
+  getCurrentQuery() {
+    const query = this.history.location.search
+
+    if (query) {
+      return parse(query, { ignoreQueryPrefix: true })
+    }
+
+    return query
+  }
+
   config() {}
 
-  push(e, route, paramsOrOptions = {}) {
+  callHistoryMethodWithArguments(methodName, e, route, paramsOrOptions = {}) {
     if (e) {
       e.preventDefault()
     }
-    const toPath = compile(route.path)
-    const path = toPath(paramsOrOptions)
-    const { config, ...params } = paramsOrOptions
-    this.history.push(path, params)
+
+    const { path, query } = route
+
+    const location = {
+      pathname: compile(path)(paramsOrOptions),
+      search: query && stringify(query, { addQueryPrefix: true }),
+    }
+
+    this.history[methodName](location)
+  }
+
+  push(e, route, paramsOrOptions = {}) {
+    this.callHistoryMethodWithArguments('push', e, route, paramsOrOptions)
   }
 
   pop(e) {
@@ -83,12 +103,7 @@ export default class TipsiRouter {
   }
 
   replace(e, route, paramsOrOptions = {}) {
-    if (e) {
-      e.preventDefault()
-    }
-    const toPath = compile(route.path)
-    const path = toPath(paramsOrOptions)
-    this.history.replace(path)
+    this.callHistoryMethodWithArguments('replace', e, route, paramsOrOptions)
   }
 
   showModal(e) {

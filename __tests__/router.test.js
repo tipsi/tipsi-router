@@ -102,4 +102,16 @@ describe('Router', () => {
       wrapper.findWhere(child => child.prop('path') === Router.routes.about.path).prop('exact')
     ).toEqual(false)
   })
+
+  test('Push with location-like argument', () => {
+    const query = { the: 'query' }
+    Router.push(null, {
+      ...Router.routes.about,
+      query,
+    })
+    wrapper.update()
+    expect(Router.getCurrentRoute()).toEqual('/about')
+    expect(wrapper.prop('history').location.search).toEqual('?the=query')
+    expect(Router.getCurrentQuery()).toEqual(query)
+  })
 })

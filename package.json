@@ -1,6 +1,6 @@
 {
   "name": "tipsi-router",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "description": "React and RN router solution",
   "main": "index.js",
   "scripts": {
@@ -50,7 +50,8 @@
     "extends": "tipsi"
   },
   "dependencies": {
-    "path-to-regexp": "2.1.0"
+    "path-to-regexp": "2.1.0",
+    "qs": "6.5.2"
   },
   "jest": {
     "setupFiles": [

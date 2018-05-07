@@ -14,6 +14,7 @@ const coreMethodFields = [
   'config',
   'setTitle',
   'getCurrentRoute',
+  'getCurrentQuery',
   'updateParams',
   'updateTitle',
 ]

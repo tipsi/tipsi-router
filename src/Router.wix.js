@@ -42,6 +42,8 @@ export default class TipsiRouter {
 
   getCurrentRoute = () => {}
 
+  getCurrentQuery = () => undefined
+
   config = () => {}
 
   setTitle = title => (
