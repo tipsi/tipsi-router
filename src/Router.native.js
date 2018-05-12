@@ -63,7 +63,7 @@ export default class TipsiRouter {
     this.getNavigator(appNavigatorID).getCurrentRoute()
   )
 
-  getCurrentQuery = () => undefined
+  getCurrentQuery = () => {}
 
   config = (params) => {
     const currentRoute = this.getCurrentRoute()

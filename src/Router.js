@@ -36,7 +36,7 @@ export default class TipsiRouter {
           exact={route.exact || route.path === '/'}
           path={route.path}
           render={props => (
-            <route.component {...props} {...props.history.location.state} />
+            <route.component {...props} {...props.location.state} />
           )}
         />
       )
@@ -64,7 +64,7 @@ export default class TipsiRouter {
       return parse(query, { ignoreQueryPrefix: true })
     }
 
-    return query
+    return {}
   }
 
   config() {}
@@ -75,10 +75,12 @@ export default class TipsiRouter {
     }
 
     const { path, query } = route
+    const { config, ...params } = paramsOrOptions
 
     const location = {
-      pathname: compile(path)(paramsOrOptions),
+      pathname: compile(path)(params),
       search: query && stringify(query, { addQueryPrefix: true }),
+      state: params,
     }
 
     this.history[methodName](location)

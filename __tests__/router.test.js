@@ -38,9 +38,12 @@ describe('Router', () => {
   const wrapper = mount(createStackNavigation('/', routes, true))
 
   test('Push', () => {
-    Router.push(null, Router.routes.about)
+    Router.push(null, Router.routes.about, { goToProps: true })
     expect(Router.getCurrentRoute()).toEqual('/about')
+    wrapper.update()
     expect(wrapper.prop('history').index).toEqual(1)
+    expect(wrapper.find('About').prop('goToProps')).toBe(true)
+    expect(wrapper.find('About').prop('location').state.goToProps).toBe(true)
   })
 
   test('Pop', () => {

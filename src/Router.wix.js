@@ -42,7 +42,7 @@ export default class TipsiRouter {
 
   getCurrentRoute = () => {}
 
-  getCurrentQuery = () => undefined
+  getCurrentQuery = () => {}
 
   config = () => {}
 
