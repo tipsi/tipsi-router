@@ -2,15 +2,19 @@ import Router from './src/Router'
 
 const SingletonRouter = {
   router: null,
+  interceptors: [],
 }
 
-const coreMethodFields = [
+const navigationMethodFields = [
   'push',
   'pop',
   'popToTop',
   'replace',
   'showModal',
   'dismissModal',
+]
+
+const coreMethodFields = [
   'config',
   'setTitle',
   'getCurrentRoute',
@@ -20,6 +24,20 @@ const coreMethodFields = [
 ]
 
 const propertyFields = ['routes']
+
+navigationMethodFields.forEach((field) => {
+  SingletonRouter[field] = (...args) => {
+    const interceptorArgs = {
+      method: field,
+      args,
+    }
+    const interceptorResult = SingletonRouter.interceptors.reduce(
+      (previousResult, interceptor) => interceptor(previousResult),
+      interceptorArgs
+    )
+    return SingletonRouter.router[field](...interceptorResult.args)
+  }
+})
 
 coreMethodFields.forEach((field) => {
   SingletonRouter[field] = (...args) => SingletonRouter.router[field](...args)
@@ -45,6 +63,10 @@ export function createStackNavigation(initialRoute, routes, useMemoryHistory, de
   }
 
   return SingletonRouter.router.navigationProvider
+}
+
+export function addInterceptor(interceptor) {
+  SingletonRouter.interceptors.push(interceptor)
 }
 
 export default SingletonRouter

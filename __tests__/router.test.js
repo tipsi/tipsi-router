@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { mount } from 'enzyme'
-import Router, { createStackNavigation } from '../'
+import Router, { createStackNavigation, addInterceptor } from '../'
 
 function DummyComponent(name) {
   return class extends Component {
@@ -14,27 +14,27 @@ function DummyComponent(name) {
   }
 }
 
-describe('Router', () => {
-  const routes = {
-    home: {
-      path: '/',
-      component: DummyComponent('Home'),
-    },
-    about: {
-      path: '/about',
-      component: DummyComponent('About'),
-    },
-    details: {
-      path: '/details',
-      component: DummyComponent('Details'),
-    },
-    exact: {
-      path: '/exact',
-      component: DummyComponent('Exact'),
-      exact: true,
-    },
-  }
+const routes = {
+  home: {
+    path: '/',
+    component: DummyComponent('Home'),
+  },
+  about: {
+    path: '/about',
+    component: DummyComponent('About'),
+  },
+  details: {
+    path: '/details',
+    component: DummyComponent('Details'),
+  },
+  exact: {
+    path: '/exact',
+    component: DummyComponent('Exact'),
+    exact: true,
+  },
+}
 
+describe('Router without interceptors', () => {
   const wrapper = mount(createStackNavigation('/', routes, true))
 
   test('Push', () => {
@@ -116,5 +116,88 @@ describe('Router', () => {
     expect(Router.getCurrentRoute()).toEqual('/about')
     expect(wrapper.prop('history').location.search).toEqual('?the=query')
     expect(Router.getCurrentQuery()).toEqual(query)
+  })
+})
+
+
+describe('Router with interceptors', () => {
+  createStackNavigation('/', routes, true)
+
+  const mock = jest.fn() // eslint-disable-line no-undef
+  const interceptor = (args) => {
+    mock(args)
+    return args
+  }
+  addInterceptor(interceptor)
+
+  test('Push', () => {
+    Router.push(null, Router.routes.about, { goToProps: true })
+    expect(mock).toHaveBeenCalledWith({
+      method: 'push',
+      args: [
+        null,
+        Router.routes.about,
+        { goToProps: true },
+      ],
+    })
+  })
+
+  test('Pop', () => {
+    Router.pop()
+    expect(mock).toHaveBeenLastCalledWith({
+      method: 'pop',
+      args: [],
+    })
+  })
+
+  test('Replace', () => {
+    Router.push(null, Router.routes.about)
+    expect(mock).toHaveBeenLastCalledWith({
+      method: 'push',
+      args: [
+        null,
+        Router.routes.about,
+      ],
+    })
+    Router.replace(null, Router.routes.details)
+    expect(mock).toHaveBeenLastCalledWith({
+      method: 'replace',
+      args: [
+        null,
+        Router.routes.details,
+      ],
+    })
+  })
+
+  test('popToTop', () => {
+    Router.push(null, Router.routes.about)
+    expect(mock).toHaveBeenLastCalledWith({
+      method: 'push',
+      args: [
+        null,
+        Router.routes.about,
+      ],
+    })
+    Router.popToTop(null)
+    expect(mock).toHaveBeenLastCalledWith({
+      method: 'popToTop',
+      args: [null],
+    })
+  })
+
+  test('showModal', () => {
+    Router.showModal()
+    expect(mock).toHaveBeenLastCalledWith({
+      method: 'showModal',
+      args: [],
+    })
+  })
+
+  test('dismissModal', () => {
+    Router.dismissModal()
+    expect(mock).toHaveBeenLastCalledWith({
+      method: 'dismissModal',
+      args: [],
+    })
   })
 })
