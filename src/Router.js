@@ -51,7 +51,9 @@ export default class TipsiRouter {
     )
   }
 
-  setTitle() {}
+  setTitle(title) {
+    document.title = title
+  }
 
   getCurrentRoute() {
     return this.history.location.pathname
