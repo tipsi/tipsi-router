@@ -1,4 +1,4 @@
-import Router from './src/Router'
+import Router from './src/Router.reach'
 
 const SingletonRouter = {
   router: null,
@@ -55,6 +55,7 @@ export {
   NavigationStyles,
   NavigationReducer,
   createNavigationEnabledStore,
+  Link,
 } from './src/Router'
 
 export function createStackNavigation(initialRoute, routes, useMemoryHistory, defaultRouteConfig) {

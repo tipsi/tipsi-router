@@ -61,8 +61,5 @@
       "./__tests__/setup/enzymeConfig.js"
     ],
     "testRegex": "__tests__/.*.test.js$"
-  },
-  "pre-commit": [
-    "lint"
-  ]
+  }
 }

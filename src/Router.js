@@ -20,7 +20,6 @@ export default class TipsiRouter {
     this.routes = routes
   }
 
-  /* eslint-disable class-methods-use-this */
   createMemoryHistory(initialRoute, routes) {
     const initialEntries = Object.values(routes).map(route => route.path)
     const initialIndex = initialEntries.indexOf(initialRoute)

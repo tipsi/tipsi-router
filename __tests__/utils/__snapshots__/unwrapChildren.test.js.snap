@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`unwrapChildren should unwrap children recursively 1`] = `
+Array [
+  <Route
+    path="/"
+  >
+    <Route
+      path="login"
+    />
+    <Route
+      path="about"
+    />
+    <Route
+      path="stores"
+    >
+      <Route
+        path=":storeId"
+      />
+    </Route>
+  </Route>,
+]
+`;
