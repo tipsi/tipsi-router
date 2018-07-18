@@ -32,14 +32,23 @@ const routes = {
     component: DummyComponent('Exact'),
     exact: true,
   },
+  login: {
+    path: '/login',
+    component: DummyComponent('Login'),
+    modal: true,
+  },
 }
 
 describe('Router without interceptors', () => {
   const wrapper = mount(createStackNavigation('/', routes, true))
+  const findExactPathPropForRoute = routePath => (
+    wrapper.findWhere(child => child.prop('path') === routePath).prop('exact')
+  )
 
   test('Push', () => {
     Router.push(null, Router.routes.about, { goToProps: true })
     expect(Router.getCurrentRoute()).toEqual('/about')
+
     wrapper.update()
     expect(wrapper.prop('history').index).toEqual(1)
     expect(wrapper.find('About').prop('goToProps')).toBe(true)
@@ -48,72 +57,71 @@ describe('Router without interceptors', () => {
 
   test('Pop', () => {
     Router.pop()
-    expect(Router.getCurrentRoute()).toEqual('/')
+
+    expect(Router.getCurrentRoute()).toEqual(Router.routes.home.path)
     expect(wrapper.prop('history').index).toEqual(0)
   })
 
   test('Replace', () => {
     Router.push(null, Router.routes.about)
     Router.replace(null, Router.routes.details)
-    expect(Router.getCurrentRoute()).toEqual('/details')
+
+    expect(Router.getCurrentRoute()).toEqual(Router.routes.details.path)
     expect(wrapper.prop('history').index).toEqual(1)
   })
 
   test('popToTop', () => {
     Router.push(null, Router.routes.about)
     expect(wrapper.prop('history').index).toEqual(2)
-    Router.popToTop(null)
-    expect(Router.getCurrentRoute()).toEqual('/')
+
+    Router.popToTop()
+    expect(Router.getCurrentRoute()).toEqual(Router.routes.home.path)
     expect(wrapper.prop('history').index).toEqual(0)
   })
 
   test('showModal', () => {
-    spyOn(Router, 'showModal')
-    Router.showModal()
-    expect(Router.showModal).toHaveBeenCalled()
+    Router.showModal(null, Router.routes.login)
+    wrapper.update()
+
+    expect(Router.getCurrentRoute()).toEqual(Router.routes.login.path)
   })
 
-  test('dismissModal', () => {
-    spyOn(Router, 'dismissModal')
-    Router.dismissModal()
-    expect(Router.dismissModal).toHaveBeenCalled()
+  test('dismissModal', async () => {
+    await Router.dismissModal()
+    expect(Router.getCurrentRoute()).toEqual(Router.routes.home.path)
   })
 
   test('ExactPath', () => {
     Router.push(null, Router.routes.exact)
     wrapper.update()
-    expect(Router.getCurrentRoute()).toEqual('/exact')
-    expect(
-      wrapper.findWhere(child => child.prop('path') === Router.routes.exact.path).prop('exact')
-    ).toEqual(true)
+
+    expect(Router.getCurrentRoute()).toEqual(Router.routes.exact.path)
+    expect(findExactPathPropForRoute(Router.routes.exact.path)).toEqual(true)
   })
 
   test('ExactRootPath', () => {
     Router.push(null, Router.routes.home)
     wrapper.update()
-    expect(Router.getCurrentRoute()).toEqual('/')
-    expect(
-      wrapper.findWhere(child => child.prop('path') === Router.routes.home.path).prop('exact')
-    ).toEqual(true)
+
+    expect(Router.getCurrentRoute()).toEqual(Router.routes.home.path)
+    expect(findExactPathPropForRoute(Router.routes.home.path)).toEqual(true)
   })
 
   test('NotExactPath', () => {
     Router.push(null, Router.routes.about)
     wrapper.update()
-    expect(Router.getCurrentRoute()).toEqual('/about')
-    expect(
-      wrapper.findWhere(child => child.prop('path') === Router.routes.about.path).prop('exact')
-    ).toEqual(false)
+
+    expect(Router.getCurrentRoute()).toEqual(Router.routes.about.path)
+    expect(findExactPathPropForRoute(Router.routes.about.path)).toEqual(false)
   })
 
   test('Push with location-like argument', () => {
     const query = { the: 'query' }
-    Router.push(null, {
-      ...Router.routes.about,
-      query,
-    })
+
+    Router.push(null, { ...Router.routes.about, query })
     wrapper.update()
-    expect(Router.getCurrentRoute()).toEqual('/about')
+
+    expect(Router.getCurrentRoute()).toEqual(Router.routes.about.path)
     expect(wrapper.prop('history').location.search).toEqual('?the=query')
     expect(Router.getCurrentQuery()).toEqual(query)
   })
@@ -178,18 +186,21 @@ describe('Router with interceptors', () => {
         Router.routes.about,
       ],
     })
-    Router.popToTop(null)
+    Router.popToTop()
     expect(mock).toHaveBeenLastCalledWith({
       method: 'popToTop',
-      args: [null],
+      args: [],
     })
   })
 
   test('showModal', () => {
-    Router.showModal()
+    Router.showModal(null, Router.routes.login)
     expect(mock).toHaveBeenLastCalledWith({
       method: 'showModal',
-      args: [],
+      args: [
+        null,
+        Router.routes.login,
+      ],
     })
   })
 
