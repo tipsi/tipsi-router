@@ -6,3 +6,5 @@ Makefile
 .editorconfig
 .eslintrc.js
 .travis.yml
+.travis
+example

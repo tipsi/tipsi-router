@@ -1,0 +1,37 @@
+{
+  "name": "example",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start -- --config ./rn-cli.config.js",
+    "appium": "appium",
+    "build:android": "scripts/build-android.sh",
+    "build:ios": "scripts/build-ios.sh",
+    "test:android": "TEST_SUITE=android appium-helper --platform android --glob ./__tests__/*.test.js",
+    "test:ios": "TEST_SUITE=ios appium-helper --platform ios --glob ./__tests__/*.test.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@expo/ex-navigation": "isnifer/ex-navigation#6f1c6ca",
+    "react": "16.3.1",
+    "react-native": "0.55.4",
+    "tipsi-router": "file:../"
+  },
+  "devDependencies": {
+    "appium": "1.8.0",
+    "babel-jest": "22.4.4",
+    "babel-preset-env": "1.6.1",
+    "babel-preset-react-native-stage-0": "1.0.1",
+    "babel-preset-react-native": "4.0.0",
+    "babel-preset-stage-0": "6.24.1",
+    "jest": "22.4.4",
+    "prop-types": "15.6.0",
+    "react-test-renderer": "16.3.1",
+    "tape-async": "^2.1.1",
+    "tipsi-appium-helper": "2.0.0",
+    "webdriverio": "4.7.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

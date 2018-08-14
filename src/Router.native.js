@@ -6,6 +6,7 @@ import {
   StackNavigation,
   createRouter,
   NavigationStyles,
+  NavigationActions,
 } from '@expo/ex-navigation'
 
 const rootNavigatorID = 'root'
@@ -55,12 +56,12 @@ export default class TipsiRouter {
     />
   )
 
-  getNavigator = navigatorID => (
+  getNavigator = () => (
     this.navigationContext.getNavigator(appNavigatorID)
   )
 
   getCurrentRoute = () => (
-    this.getNavigator(appNavigatorID).getCurrentRoute()
+    this.getNavigator().getCurrentRoute()
   )
 
   getCurrentQuery = () => {}
@@ -75,7 +76,7 @@ export default class TipsiRouter {
   }
 
   updateParams = (params = {}) => {
-    const navigator = this.getNavigator(appNavigatorID)
+    const navigator = this.getNavigator()
     navigator.updateCurrentRouteParams(params)
   }
 
@@ -88,7 +89,7 @@ export default class TipsiRouter {
   push = (e, route, paramsOrOptions = {}) => {
     const { config = {}, ...params } = paramsOrOptions
     const { transitionGroup, ...restConfig } = config
-    const navigator = this.getNavigator(appNavigatorID)
+    const navigator = this.getNavigator()
     const expoRoute = this.navigationContext._router.getRoute(this.routeName(route), params)
 
     expoRoute.config = { ...restConfig }
@@ -99,16 +100,16 @@ export default class TipsiRouter {
   }
 
   pop = () => {
-    this.getNavigator(appNavigatorID).pop()
+    this.getNavigator().pop()
   }
 
   popToTop = () => {
-    this.getNavigator(appNavigatorID).popToTop()
+    this.getNavigator().popToTop()
   }
 
   replace = (e, route, paramsOrOptions = {}) => {
     const { config = {}, ...params } = paramsOrOptions
-    const navigator = this.getNavigator(appNavigatorID)
+    const navigator = this.getNavigator()
     const expoRoute = this.navigationContext._router.getRoute(this.routeName(route), params)
 
     expoRoute.config = { ...config }
@@ -126,7 +127,7 @@ export default class TipsiRouter {
 
   showModal = (e, route, paramsOrOptions = {}, delay = 0) => {
     const { config = {}, ...params } = paramsOrOptions
-    const navigatorApp = this.getNavigator(rootNavigatorID)
+    const navigatorApp = this.getNavigator()
     const navigatorMaster = this.navigationContext.getNavigatorByUID(
       navigatorApp.parentNavigatorUID
     )
@@ -142,11 +143,14 @@ export default class TipsiRouter {
   }
 
   dismissModal = () => {
-    const navigatorApp = this.getNavigator(rootNavigatorID)
+    const navigatorApp = this.getNavigator()
     const navigatorMaster = this.navigationContext.getNavigatorByUID(
       navigatorApp.parentNavigatorUID
     )
     navigatorMaster.pop()
+    this.navigationContext._store.dispatch(
+      NavigationActions.setCurrentNavigator(navigatorApp.navigatorUID)
+    )
   }
 
   routeName = route => findKey(this.routes, { path: route.path })

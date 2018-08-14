@@ -1,12 +1,12 @@
 {
   "name": "tipsi-router",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "React and RN router solution",
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test jest --color",
     "test:watch": "jest --watch",
-    "lint": "eslint index.js '**/*.js'"
+    "lint": "eslint index.js 'src/**/*.js' 'example/__test__/**/*.js' 'example/src/**/*.js'"
   },
   "repository": {
     "type": "git",
@@ -60,7 +60,8 @@
     "setupFiles": [
       "./__tests__/setup/enzymeConfig.js"
     ],
-    "testRegex": "__tests__/.*.test.js$"
+    "testRegex": "__tests__/.*.test.js$",
+    "testPathIgnorePatterns": ["/node_modules/", "/example/", "/example_tmp/"]
   },
   "pre-commit": [
     "lint"

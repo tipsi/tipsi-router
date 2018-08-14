@@ -1,0 +1,8 @@
+{
+  "ios": {
+    "appPath": "./ios/build/Build/Products/Release-iphonesimulator/example.app"
+  },
+  "android": {
+    "appPath": "./android/app/build/outputs/apk/release/app-release.apk"
+  }
+}
