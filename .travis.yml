@@ -1,10 +1,31 @@
 matrix:
   include:
+      - os: linux
+        language: node_js
+        node_js:
+          - "9"
+          - "8"
+        env:
+          - JOB_NAME=NODEJS
+        cache:
+          directories:
+          - node_modules
+        script:
+          - npm install
+          - npm run lint
+          - npm test
       - os: osx
         language: objective-c
-        osx_image: xcode9.1
+        osx_image: xcode9.4
         env:
-          - JOB_NAME=DEFAULT_IOS
+          - JOB_NAME=IOS
+        cache:
+          directories:
+            - node_modules
+            - $HOME/.nvm
+            - $HOME/.npm
+        before_cache: .travis/before-cache.sh
+        script: .travis/ci.sh
       - os: linux
         language: android
         jdk: oraclejdk8
@@ -23,14 +44,26 @@ matrix:
             - extra-google-google_play_services
         env:
           - JOB_NAME=ANDROID_5
+        cache:
+          directories:
+            - node_modules
+            - $HOME/.nvm
+            - $HOME/.npm
+        before_cache: .travis/before-cache.sh
+        before_install:
+            - mkdir "$ANDROID_HOME/licenses" || true
+            - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license"
+            - echo -e "\n504667f4c0de7af1a06de9f4b1727b84351f2910" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+        script: .travis/ci.sh
 
-cache:
-  directories:
-  - node_modules
-  - $HOME/.nvm
-  - $HOME/.npm
-  - $HOME/.cocoapods
-before_cache: .travis/before-cache.sh
-before_install: .travis/before-install.sh
-before_script: .travis/before-ci.sh
-script: .travis/ci.sh
+# cache:
+#   directories:
+#   - node_modules
+#   - $HOME/.nvm
+#   - $HOME/.npm
+#   - $HOME/.cocoapods
+# before_cache: .travis/before-cache.sh
+# before_install: .travis/before-install.sh
+# install: .travis/install.sh
+# before_script: .travis/before-ci.sh
+# script: .travis/ci.sh

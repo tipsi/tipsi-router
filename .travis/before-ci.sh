@@ -10,4 +10,4 @@ case "${TRAVIS_OS_NAME}" in
   ;;
 esac
 
-example_tmp/node_modules/.bin/appium --session-override > appium.out &
+example/node_modules/.bin/appium --session-override > appium.out &

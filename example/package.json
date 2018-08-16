@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start -- --config ./rn-cli.config.js",
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start-local": "node node_modules/react-native/local-cli/cli.js start -- --config ./rn-cli.config.js",
     "appium": "appium",
     "build:android": "scripts/build-android.sh",
     "build:ios": "scripts/build-ios.sh",
@@ -20,7 +21,7 @@
   "devDependencies": {
     "appium": "1.8.0",
     "babel-jest": "22.4.4",
-    "babel-preset-env": "1.6.1",
+    "babel-preset-env": "1.7.0",
     "babel-preset-react-native-stage-0": "1.0.1",
     "babel-preset-react-native": "4.0.0",
     "babel-preset-stage-0": "6.24.1",
