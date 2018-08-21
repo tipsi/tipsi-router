@@ -8,6 +8,7 @@ import Button from './Button'
 export default class Details extends Component {
   static propTypes = {
     text: PropTypes.string.isRequired,
+    testId: PropTypes.string.isRequired,
     showButtons: PropTypes.bool,
   }
 
@@ -20,13 +21,17 @@ export default class Details extends Component {
   }
 
   onPressHandler = () => {
-    Router.replace(null, Router.routes.details, { text: 'Replaced', showButtons: false })
+    Router.replace(
+      null,
+      Router.routes.details,
+      { text: 'Replaced', showButtons: false, testId: 'replace' }
+    )
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text {...testID('detailsText')}>{this.props.text}</Text>
+        <Text {...testID(`${this.props.testId}DetailsText`)}>{this.props.text}</Text>
         {this.props.showButtons &&
           <Button
             style={styles.button}

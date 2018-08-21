@@ -67,3 +67,8 @@ jsconfig.json
 
 # tests
 coverage
+
+*.tgz
+*.xml
+
+example/package-lock.json

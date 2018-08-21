@@ -1,17 +1,45 @@
 #!/bin/bash
 
+set -e
+
+###################
+# BEFORE CACHE    #
+###################
+case "${TRAVIS_OS_NAME}" in
+  linux)
+    rm -rf "$HOME/.gradle/caches/modules-2/modules-2.lock"
+  ;;
+esac
+
+###################
+# BEFORE INSTALL  #
+###################
 export NODEJS_ORG_MIRROR=http://nodejs.org/dist
+
 wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh -O ~/.nvm/nvm.sh
 source ~/.nvm/nvm.sh
-$HOME/.nvm/nvm.sh
-nvm install 8.6.0
-npm i npm@5 -g
 
-node --version
-npm install
-cd example
+nvm install 9.11.2
+
+npm install -g react-native-cli
+
 npm install
 
+# Remove existing tarball
+rm -rf *.tgz
+
+npm pack
+
+###################
+# INSTALL         #
+###################
+cd example || exit
+
+rm -rf node_modules && npm install
+
+###################
+# BEFORE CI       #
+###################
 case "${TRAVIS_OS_NAME}" in
   linux)
     echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a --skin WVGA800
@@ -22,11 +50,14 @@ case "${TRAVIS_OS_NAME}" in
   ;;
 esac
 
-node_modules/.bin/appium --session-override > appium.out &
+npm run appium > /dev/null 2>&1 &
 
+###################
+# CI              #
+###################
 case "${TRAVIS_OS_NAME}" in
   osx)
-    set -o pipefail && npm run build:ios | xcpretty -c -f `xcpretty-travis-formatter`
+    npm run build:ios | xcpretty -c -f `xcpretty-travis-formatter`
     npm run test:ios
   ;;
   linux)

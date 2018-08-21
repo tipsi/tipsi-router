@@ -5,6 +5,9 @@ set -e
 # Go to ios path
 cd ios
 
+# Remove build folder
+rm -rf ios/build
+
 # Run release build
 xcodebuild build \
   -scheme example \

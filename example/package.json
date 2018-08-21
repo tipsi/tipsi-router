@@ -3,23 +3,27 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "preinstall": "node scripts/pre-install.js",
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "start-local": "node node_modules/react-native/local-cli/cli.js start -- --config ./rn-cli.config.js",
+    "cold-start": "npm start -- --reset-cache",
     "appium": "appium",
     "build:android": "scripts/build-android.sh",
     "build:ios": "scripts/build-ios.sh",
-    "test:android": "TEST_SUITE=android appium-helper --platform android --glob ./__tests__/*.test.js",
-    "test:ios": "TEST_SUITE=ios appium-helper --platform ios --glob ./__tests__/*.test.js",
-    "test": "jest"
+    "test:android": "appium-helper --platform android",
+    "test:ios": "appium-helper --platform ios",
+    "test": "jest",
+    "test:local-e2e": "OS=both scripts/run-local-tests.sh",
+    "run-emulator:android": "scripts/run-android-emulator.sh",
+    "kill-emulator:android": "scripts/kill-android-emulator.sh"
   },
   "dependencies": {
     "@expo/ex-navigation": "isnifer/ex-navigation#6f1c6ca",
     "react": "16.3.1",
     "react-native": "0.55.4",
-    "tipsi-router": "file:../"
+    "tipsi-router": "file:../tipsi-router-latest.tgz"
   },
   "devDependencies": {
-    "appium": "1.8.0",
+    "appium": "1.8.1",
     "babel-jest": "22.4.4",
     "babel-preset-env": "1.7.0",
     "babel-preset-react-native-stage-0": "1.0.1",
@@ -28,8 +32,8 @@
     "jest": "22.4.4",
     "prop-types": "15.6.0",
     "react-test-renderer": "16.3.1",
-    "tape-async": "^2.1.1",
-    "tipsi-appium-helper": "2.0.0",
+    "tape-async": "2.1.1",
+    "tipsi-appium-helper": "2.1.3",
     "webdriverio": "4.7.1"
   },
   "jest": {

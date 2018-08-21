@@ -11,7 +11,7 @@ export default class componentName extends Component {
   }
 
   onPushHandler = () => {
-    Router.push(null, Router.routes.details, { text: 'Push details' })
+    Router.push(null, Router.routes.details, { text: 'Push details', testId: 'push' })
   }
 
   onModalHandler = () => {
@@ -27,7 +27,7 @@ export default class componentName extends Component {
     Router.showModal(
       null,
       Router.routes.details,
-      { config, text: 'Modal details', showButtons: false }
+      { config, text: 'Modal details', showButtons: false, testId: 'modal' }
     )
   }
 

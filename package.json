@@ -6,7 +6,8 @@
   "scripts": {
     "test": "NODE_ENV=test jest --color",
     "test:watch": "jest --watch",
-    "lint": "eslint index.js 'src/**/*.js' 'example/__test__/**/*.js' 'example/src/**/*.js'"
+    "lint": "eslint index.js 'src/**/*.js' 'example/__test__/**/*.js' 'example/src/**/*.js'",
+    "ci": "scripts/local-ci.sh"
   },
   "repository": {
     "type": "git",
@@ -61,7 +62,10 @@
       "./__tests__/setup/enzymeConfig.js"
     ],
     "testRegex": "__tests__/.*.test.js$",
-    "testPathIgnorePatterns": ["/node_modules/", "/example/", "/example_tmp/"]
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/example/"
+    ]
   },
   "pre-commit": [
     "lint"

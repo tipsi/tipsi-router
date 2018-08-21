@@ -5,6 +5,9 @@ set -e
 # Go to android path
 cd android
 
+# Remove build folder
+rm -rf app/build
+
 # Clean
 ./gradlew clean
 
@@ -19,6 +22,8 @@ keytool \
   -storepass android \
   -alias androidreleasekey \
   -keypass android \
+  -keysize 1024 \
+  -validity 14000 \
   -dname 'CN=Android Debug,O=Android,C=US'
 
 # Run release build
