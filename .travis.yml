@@ -3,17 +3,20 @@ matrix:
     - language: node_js
       node_js:
         - "9"
+      script: .travis/ci_node.sh
+
+    - language: node_js
+      node_js:
         - "8"
-      script:
-        - npm install
-        - npm run lint
-        - npm test
+      script: .travis/ci_node.sh
+
     - os: osx
       language: objective-c
       osx_image: xcode9.4
       env:
         - JOB_NAME=IOS
       script: .travis/ci.sh
+
     - os: linux
       language: android
       jdk: oraclejdk8
