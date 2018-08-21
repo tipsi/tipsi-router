@@ -1,4 +1,3 @@
-.travis.yml
 *~
 Makefile
 *.tgz
@@ -6,3 +5,7 @@ Makefile
 .editorconfig
 .eslintrc.js
 .travis.yml
+.travis
+example
+scripts
+__tests__
