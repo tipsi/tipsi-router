@@ -15,11 +15,13 @@ const routes = {
   },
 }
 
+const backgroundColor = '#EBEBEB'
+
 export default class App extends Component {
   render() {
     const defaultRouteConfig = {
       navigationBar: {
-        backgroundColor: '#ebebeb',
+        backgroundColor,
         renderLeft: (route, props) => (
           <BackButton index={props.scene.index} onPress={Router.pop} />
         ),

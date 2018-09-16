@@ -38,6 +38,7 @@ export default class TipsiRouter {
     return createRouter(() => routes, { ignoreSerializableWarnings: true })
   }
 
+  /* eslint-disable react/no-this-in-sfc */
   stackNavigationProvider = () => (
     <NavigationProvider context={this.navigationContext}>
       <StackNavigation

@@ -1,13 +1,13 @@
 {
   "name": "tipsi-router",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "React and RN router solution",
   "main": "index.js",
   "scripts": {
+    "ci": "rm -rf node_modules; npm i; node -r esm node_modules/tipsi-travis-scripts/scripts/ci.js",
+    "lint": "eslint index.js 'src/**/*.js' 'example/src/**/*.js'",
     "test": "NODE_ENV=test jest --color",
-    "test:watch": "jest --watch",
-    "lint": "eslint index.js 'src/**/*.js' 'example/__test__/**/*.js' 'example/src/**/*.js'",
-    "ci": "scripts/local-ci.sh"
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -25,37 +25,56 @@
   },
   "homepage": "https://github.com/tipsi/tipsi-router#readme",
   "peerDependencies": {
-    "@expo/ex-navigation": "isnifer/ex-navigation#6f1c6ca",
-    "history": "4.7.2",
-    "react-native-navigation": "1.1.335",
-    "react-router-dom": "4.2.2",
-    "react-router-modal": "1.3.5",
-    "react": "16.2.0",
-    "react-native": "0.50.4"
+    "@expo/ex-navigation": "tipsi/ex-navigation#4.2.0",
+    "history": "^4.7.2",
+    "react-native-navigation": "^1.1.335",
+    "react-router-dom": "^4.2.2",
+    "react-router-modal": "^1.3.5",
+    "react": "^16.5.0",
+    "react-native": "^0.57.0"
   },
   "devDependencies": {
-    "babel-jest": "22.4.3",
-    "babel-preset-env": "1.7.0",
-    "babel-preset-react": "6.24.1",
-    "babel-preset-stage-0": "6.24.1",
-    "enzyme": "3.3.0",
-    "enzyme-adapter-react-16": "1.1.1",
-    "eslint": "4.15.0",
-    "eslint-config-tipsi": "2.0.2",
+    "@babel/core": "7.0.0",
+    "@babel/plugin-proposal-class-properties": "7.0.0",
+    "@babel/plugin-proposal-decorators": "7.0.0",
+    "@babel/plugin-proposal-do-expressions": "7.0.0",
+    "@babel/plugin-proposal-export-default-from": "7.0.0",
+    "@babel/plugin-proposal-export-namespace-from": "7.0.0",
+    "@babel/plugin-proposal-function-bind": "7.0.0",
+    "@babel/plugin-proposal-function-sent": "7.0.0",
+    "@babel/plugin-proposal-json-strings": "7.0.0",
+    "@babel/plugin-proposal-logical-assignment-operators": "7.0.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "7.0.0",
+    "@babel/plugin-proposal-numeric-separator": "7.0.0",
+    "@babel/plugin-proposal-optional-chaining": "7.0.0",
+    "@babel/plugin-proposal-pipeline-operator": "7.0.0",
+    "@babel/plugin-proposal-throw-expressions": "7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "7.0.0",
+    "@babel/plugin-syntax-import-meta": "7.0.0",
+    "@babel/preset-env": "7.0.0",
+    "@babel/preset-flow": "7.0.0",
+    "@babel/preset-react": "7.0.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "23.6.0",
+    "enzyme": "3.6.0",
+    "enzyme-adapter-react-16": "1.5.0",
+    "eslint": "5.5.0",
+    "eslint-config-tipsi": "2.2.0",
     "history": "4.7.2",
-    "jest": "22.4.3",
+    "jest": "23.6.0",
     "pre-commit": "1.2.2",
-    "react": "16.3.0",
-    "react-dom": "16.3.0",
+    "react": "16.5.0",
+    "react-dom": "16.5.0",
     "react-router-dom": "4.2.2",
-    "react-router-modal": "1.3.5"
-  },
-  "eslintConfig": {
-    "extends": "tipsi"
+    "react-router-modal": "1.3.5",
+    "tipsi-travis-scripts": "tipsi/tipsi-travis-scripts#c5d97a1"
   },
   "dependencies": {
     "path-to-regexp": "2.1.0",
     "qs": "6.5.2"
+  },
+  "eslintConfig": {
+    "extends": "tipsi"
   },
   "jest": {
     "setupFiles": [

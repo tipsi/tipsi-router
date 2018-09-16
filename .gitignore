@@ -72,3 +72,9 @@ coverage
 *.xml
 
 example/package-lock.json
+
+*.log
+
+tmp
+example_tmp
+example_podspec
