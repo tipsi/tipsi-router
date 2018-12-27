@@ -8,6 +8,19 @@ export default class TipsiRouter {
     this.stackNavigationProvider()
     this.registerScreenVisibilityListener()
     this.routes = routes
+    this.title = ''
+  }
+
+  subscribe = (fn) => {
+    this.observers.push(fn)
+  }
+
+  unsubscribe = (fn) => {
+    this.observers = this.observers.filter(subscriber => subscriber !== fn)
+  }
+
+  broadcast(data) {
+    this.observers.forEach(subscriber => subscriber(data))
   }
 
   registerScreens = (routes) => {
@@ -46,9 +59,15 @@ export default class TipsiRouter {
 
   config = () => {}
 
-  setTitle = title => (
+  setTitle = (title) => {
+    this.title = `${title}`.trim()
     platformSpecific.navigatorSetTitle({ navigatorID: this.getNavigatorID() }, { title })
-  )
+    this.broadcast(title)
+  }
+
+  getTitle() {
+    return this.title
+  }
 
   push = (e, route, paramsOrOptions = {}) => {
     const { config = {}, ...params } = paramsOrOptions

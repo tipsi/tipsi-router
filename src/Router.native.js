@@ -23,10 +23,23 @@ export default class TipsiRouter {
   constructor(initialRoute, routes, useMemoryHistory = false, defaultRouteConfig = {}) {
     const App = this.createAppComponent(initialRoute, defaultRouteConfig)
     const expoRouter = this.createRoutes({ ...routes, app: { component: App } })
-
+    this.title = defaultRouteConfig.title || ''
     this.routes = routes
+    this.observers = []
     this.navigationContext = new NavigationContext({ router: expoRouter })
     this.navigationProvider = this.stackNavigationProvider(initialRoute, expoRouter)
+  }
+
+  subscribe = (fn) => {
+    this.observers.push(fn)
+  }
+
+  unsubscribe = (fn) => {
+    this.observers = this.observers.filter(subscriber => subscriber !== fn)
+  }
+
+  broadcast(data) {
+    this.observers.forEach(subscriber => subscriber(data))
   }
 
   createRoutes = (appRoutes) => {
@@ -73,7 +86,13 @@ export default class TipsiRouter {
   }
 
   setTitle = (title) => {
+    this.title = `${title}`.trim()
     this.config({ navigationBar: { title } })
+    this.broadcast(title)
+  }
+
+  getTitle() {
+    return this.title
   }
 
   updateParams = (params = {}) => {
@@ -82,7 +101,7 @@ export default class TipsiRouter {
   }
 
   updateTitle = (title) => {
-    this.setTitle(title)
+    this.setTitle(this.title)
     this.updateParams()
   }
 

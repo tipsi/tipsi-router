@@ -5,6 +5,7 @@ import createBrowserHistory from 'history/createBrowserHistory'
 import createMemoryHistory from 'history/createMemoryHistory'
 import { compile } from 'path-to-regexp'
 import { parse, stringify } from 'qs'
+import queryString from 'query-string'
 
 // Remove warnings
 export const NavigationStyles = {}
@@ -15,15 +16,31 @@ export default class TipsiRouter {
   constructor(initialRoute, routes, useMemoryHistory = false, defaultRouteConfig = {}) {
     this.defaultRouteConfig = defaultRouteConfig
     this.basename = defaultRouteConfig.basename || '/'
+    this.title = defaultRouteConfig.title || ''
+    this.observers = []
     this.history = useMemoryHistory
       ? this.createMemoryHistory(initialRoute, routes)
       : createBrowserHistory({ basename: this.basename })
     this.navigationProvider = this.createRouter(initialRoute, routes)
     this.routes = routes
     this.stack = 0
+    this.syncSearchWithState = defaultRouteConfig.syncSearchWithState
+  }
+
+  subscribe = (fn) => {
+    this.observers.push(fn)
+  }
+
+  unsubscribe = (fn) => {
+    this.observers = this.observers.filter(subscriber => subscriber !== fn)
+  }
+
+  broadcast(data) {
+    this.observers.forEach(subscriber => subscriber(data))
   }
 
   /* eslint-disable class-methods-use-this */
+  /* eslint-disable react/no-this-in-sfc */
   createMemoryHistory(initialRoute, routes) {
     const initialEntries = Object.values(routes).map(route => route.path)
     const initialIndex = initialEntries.indexOf(initialRoute)
@@ -36,9 +53,35 @@ export default class TipsiRouter {
       const RouteContainer = route.modal ? ModalRoute : Route
       const RouteComponent = route.component
 
-      const render = props => (
-        <RouteComponent isFocused {...props} {...props.location.state} /> // eslint-disable-line
-      )
+      const render = (props) => {
+        const paramsToState = (this.syncSearchWithState) ?
+          queryString.parse(props.location.search) :
+          {}
+
+        if (this.syncSearchWithState) {
+          Object.keys(paramsToState).forEach((paramToStateKey) => {
+            if (this.syncSearchWithState.parseInt) {
+              const toInt = +(paramsToState[paramToStateKey])
+              if (paramsToState[paramToStateKey] === `${toInt}`) {
+                paramsToState[paramToStateKey] = toInt
+              }
+            }
+
+            try {
+              const toObject = JSON.parse(paramsToState[paramToStateKey])
+              paramsToState[paramToStateKey] = toObject
+            } catch (e) {
+              // Don't do anything
+            }
+          })
+        }
+
+        const state = Object.assign({}, props.location.state, paramsToState)
+
+        return (
+          <RouteComponent isFocused {...props} {...state} /> // eslint-disable-line
+        )
+      }
 
       const renderProps = route.modal ? { component: render } : { render }
 
@@ -62,7 +105,13 @@ export default class TipsiRouter {
   }
 
   setTitle(title) {
+    this.title = `${title}`.trim()
     document.title = title
+    this.broadcast(title)
+  }
+
+  getTitle() {
+    return this.title
   }
 
   getCurrentRoute() {
@@ -89,10 +138,27 @@ export default class TipsiRouter {
     const { path, query } = route
     const { config, ...params } = paramsOrOptions
 
+    let searchQuery = query && stringify(query, { addQueryPrefix: true })
+    let stateObject = params
+
+    if (this.syncSearchWithState) {
+      const syncStateObject = Object.assign({}, queryString.parse(searchQuery), params)
+      const syncSearchObject = Object.assign({}, queryString.parse(searchQuery), params)
+
+      Object.keys(syncSearchObject).forEach((key) => {
+        if (typeof syncSearchObject[key] === 'object') {
+          syncSearchObject[key] = JSON.stringify(syncSearchObject[key])
+        }
+      })
+
+      searchQuery = queryString.stringify(syncSearchObject)
+      stateObject = syncStateObject
+    }
+
     const location = {
       pathname: compile(path)(params),
-      search: query && stringify(query, { addQueryPrefix: true }),
-      state: params,
+      search: searchQuery,
+      state: stateObject,
     }
 
     this.history[methodName](location)

@@ -211,4 +211,11 @@ describe('Router with interceptors', () => {
       args: [],
     })
   })
+
+  test('setTitle', () => {
+    const title = 'Set title'
+    Router.setTitle(title)
+    const documentTitle = Router.getTitle()
+    expect(documentTitle).toEqual(title)
+  })
 })

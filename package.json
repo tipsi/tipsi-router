@@ -1,6 +1,6 @@
 {
   "name": "tipsi-router",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "React and RN router solution",
   "main": "index.js",
   "scripts": {
@@ -71,7 +71,8 @@
   },
   "dependencies": {
     "path-to-regexp": "2.1.0",
-    "qs": "6.5.2"
+    "qs": "6.5.2",
+    "query-string": "6.2.0"
   },
   "eslintConfig": {
     "extends": "tipsi"

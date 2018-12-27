@@ -17,10 +17,15 @@ const navigationMethodFields = [
 const coreMethodFields = [
   'config',
   'setTitle',
+  'getTitle',
   'getCurrentRoute',
   'getCurrentQuery',
   'updateParams',
   'updateTitle',
+  'subscribe',
+  'subscribe',
+  'unsubscribe',
+  'broadcast',
 ]
 
 const propertyFields = ['routes']
