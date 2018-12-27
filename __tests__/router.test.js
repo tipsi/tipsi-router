@@ -1,43 +1,6 @@
-import React, { Component } from 'react'
 import { mount } from 'enzyme'
-import Router, { createStackNavigation, addInterceptor } from '../'
-
-function DummyComponent(name) {
-  return class extends Component {
-    static displayName = name
-
-    render() {
-      return (
-        <div />
-      )
-    }
-  }
-}
-
-const routes = {
-  home: {
-    path: '/',
-    component: DummyComponent('Home'),
-  },
-  about: {
-    path: '/about',
-    component: DummyComponent('About'),
-  },
-  details: {
-    path: '/details',
-    component: DummyComponent('Details'),
-  },
-  exact: {
-    path: '/exact',
-    component: DummyComponent('Exact'),
-    exact: true,
-  },
-  login: {
-    path: '/login',
-    component: DummyComponent('Login'),
-    modal: true,
-  },
-}
+import routes from './setup/routes'
+import Router, { createStackNavigation, addInterceptor } from '..'
 
 describe('Router without interceptors', () => {
   const wrapper = mount(createStackNavigation('/', routes, true))

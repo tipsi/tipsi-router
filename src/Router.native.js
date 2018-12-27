@@ -8,6 +8,7 @@ import {
   NavigationStyles,
   NavigationActions,
 } from '@expo/ex-navigation'
+import RouterBase from './RouterBase'
 
 const rootNavigatorID = 'root'
 const appNavigatorID = 'app'
@@ -18,13 +19,15 @@ export {
   NavigationReducer,
 } from '@expo/ex-navigation'
 
-export default class TipsiRouter {
+export default class TipsiRouter extends RouterBase {
   /* eslint-disable no-unused-vars */
   constructor(initialRoute, routes, useMemoryHistory = false, defaultRouteConfig = {}) {
+    super(initialRoute, routes, useMemoryHistory, defaultRouteConfig)
     const App = this.createAppComponent(initialRoute, defaultRouteConfig)
     const expoRouter = this.createRoutes({ ...routes, app: { component: App } })
-
+    this.title = defaultRouteConfig.title || ''
     this.routes = routes
+    this.observers = []
     this.navigationContext = new NavigationContext({ router: expoRouter })
     this.navigationProvider = this.stackNavigationProvider(initialRoute, expoRouter)
   }
@@ -61,18 +64,15 @@ export default class TipsiRouter {
     this.navigationContext.getNavigator(appNavigatorID)
   )
 
-  getCurrentRoute = () => (
-    this.getNavigator().getCurrentRoute()
-  )
-
-  getCurrentQuery = () => {}
+  getCurrentRoute = () => this.getNavigator().getCurrentRoute()
 
   config = (params) => {
     const currentRoute = this.getCurrentRoute()
     currentRoute.config = merge(currentRoute.config, params)
   }
 
-  setTitle = (title) => {
+  setTitle(title) {
+    super.setTitle(title)
     this.config({ navigationBar: { title } })
   }
 

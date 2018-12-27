@@ -21,6 +21,10 @@ const coreMethodFields = [
   'getCurrentQuery',
   'updateParams',
   'updateTitle',
+  'subscribe',
+  'subscribe',
+  'unsubscribe',
+  'broadcast',
 ]
 
 const propertyFields = ['routes']
@@ -61,7 +65,6 @@ export function createStackNavigation(initialRoute, routes, useMemoryHistory, de
   if (!SingletonRouter.router) {
     SingletonRouter.router = new Router(initialRoute, routes, useMemoryHistory, defaultRouteConfig)
   }
-
   return SingletonRouter.router.navigationProvider
 }
 

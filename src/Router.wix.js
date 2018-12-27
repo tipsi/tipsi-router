@@ -1,13 +1,16 @@
 import { Navigation, ScreenVisibilityListener } from 'react-native-navigation'
 import platformSpecific from 'react-native-navigation/src/deprecated/platformSpecificDeprecated'
 import { keys, findKey } from 'lodash'
+import RouterBase from './RouterBase'
 
-export default class TipsiRouter {
+export default class TipsiRouter extends RouterBase {
   constructor(initialRoute, routes) {
+    super(initialRoute, routes)
     this.registerScreens(routes)
     this.stackNavigationProvider()
     this.registerScreenVisibilityListener()
     this.routes = routes
+    this.title = ''
   }
 
   registerScreens = (routes) => {
@@ -40,15 +43,10 @@ export default class TipsiRouter {
 
   getNavigatorID = () => this.modalNavigatorID || this.navigatorID
 
-  getCurrentRoute = () => {}
-
-  getCurrentQuery = () => {}
-
-  config = () => {}
-
-  setTitle = title => (
+  setTitle(title) {
+    super.setTitle(title)
     platformSpecific.navigatorSetTitle({ navigatorID: this.getNavigatorID() }, { title })
-  )
+  }
 
   push = (e, route, paramsOrOptions = {}) => {
     const { config = {}, ...params } = paramsOrOptions
