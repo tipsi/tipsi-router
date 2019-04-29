@@ -48,6 +48,10 @@ export default class TipsiRouter extends RouterBase {
     platformSpecific.navigatorSetTitle({ navigatorID: this.getNavigatorID() }, { title })
   }
 
+  updateTitle(title) {
+    this.setTitle(title)
+  }
+
   push = (e, route, paramsOrOptions = {}) => {
     const { config = {}, ...params } = paramsOrOptions
     const { navigationBar = {} } = config
