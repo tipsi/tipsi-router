@@ -109,6 +109,10 @@ export default class TipsiRouter extends RouterBase {
     document.title = title
   }
 
+  updateTitle(title) {
+    this.setTitle(title)
+  }
+
   getCurrentRoute = () => this.history.location.pathname
 
   getCurrentQuery = () => {
