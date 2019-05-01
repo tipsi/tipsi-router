@@ -51,4 +51,9 @@ export default {
     component: DummyComponent('Login'),
     modal: true,
   },
+  whiteList: {
+    path: '/login',
+    component: DummyComponent('WhiteListParams'),
+    whiteListParams: ['a', 'c'],
+  },
 }
