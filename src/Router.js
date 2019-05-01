@@ -130,11 +130,18 @@ export default class TipsiRouter extends RouterBase {
       e.preventDefault()
     }
 
-    const { path, query } = route
+    const { path, query, whiteListParams } = route
     const { config, ...params } = paramsOrOptions
 
     let searchQuery = query && stringify(query, { addQueryPrefix: true })
     let stateObject = params
+
+    const keys = Object.keys(params)
+    if (whiteListParams && keys.length > 0) {
+      keys
+        .filter(item => !whiteListParams.includes(item))
+        .forEach(key => delete params[key])
+    }
 
     if (this.syncSearchWithState) {
       const parsedSearchQuery = parse(searchQuery, { ignoreQueryPrefix: true })
