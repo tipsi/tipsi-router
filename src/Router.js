@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, Switch, Route } from 'react-router-dom'
+import { Router, Switch, Route, Redirect } from 'react-router-dom'
 import { ModalRoute } from 'react-router-modal'
 import createBrowserHistory from 'history/createBrowserHistory'
 import createMemoryHistory from 'history/createMemoryHistory'
@@ -33,7 +33,10 @@ export default class TipsiRouter extends RouterBase {
     const initialEntries = Object.values(routes).map(route => route.path)
     const initialIndex = initialEntries.indexOf(initialRoute)
 
-    return createMemoryHistory({ initialEntries, initialIndex })
+    // filter out all Redirects (items with 'path' prop equal to undefined)
+    const entriesWithoutRedirects = initialEntries.filter(entry => !!entry)
+
+    return createMemoryHistory({ initialEntries: entriesWithoutRedirects, initialIndex })
   }
 
   filterSyncedState(state, filterFields) {
@@ -51,6 +54,21 @@ export default class TipsiRouter extends RouterBase {
 
   createRouter(initialRoute, routes) {
     const elements = Object.entries(routes).reduce((memo, [key, route]) => {
+      // "to" is only required property for Redirect
+      if (route.redirectTo) {
+        const { redirectFrom, redirectTo, exact } = route
+
+        // only allow "to", "from", or "exact" props to be passed to <Redirect />
+        const redirectParams = {
+          to: redirectTo,
+        }
+
+        if (redirectFrom) redirectParams.from = redirectFrom
+        if (exact) redirectParams.exact = exact
+
+        return memo.concat(<Redirect key={key} {...redirectParams} />)
+      }
+
       const RouteContainer = route.modal ? ModalRoute : Route
       const RouteComponent = route.component
 
@@ -211,6 +229,10 @@ export default class TipsiRouter extends RouterBase {
 
   showModal(e, route, paramsOrOptions = {}) {
     this.callHistoryMethodWithArguments('push', e, route, paramsOrOptions)
+  }
+
+  redirect(url) {
+    window.location.replace(url)
   }
 
   async dismissModal(e) {

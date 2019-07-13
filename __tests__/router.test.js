@@ -88,6 +88,33 @@ describe('Router without interceptors', () => {
     expect(wrapper.prop('history').location.search).toEqual('?the=query')
     expect(Router.getCurrentQuery()).toEqual(query)
   })
+
+  test('Redirect from some path to Details page', () => {
+    const historyLength = wrapper.prop('history').index
+
+    Router.push(null, {path: '/path_to_redirect_from'})
+
+    expect(Router.getCurrentRoute()).toEqual(Router.routes.details.path)
+    expect(wrapper.prop('history').index).toEqual(historyLength + 1)
+  })
+
+  test('Default redirect to About page', () => {
+    const historyLength = wrapper.prop('history').index
+
+    Router.push(null, {path: 'some_unrealistic_path'})
+
+    expect(Router.getCurrentRoute()).toEqual(Router.routes.about.path)
+    expect(wrapper.prop('history').index).toEqual(historyLength + 1)
+  })
+
+  test('Redirect to any external url', () => {
+    const externalUrl = 'http://example.com'
+
+    window.location.replace = jest.fn()
+    Router.redirect(externalUrl)
+    expect(window.location.replace).toHaveBeenCalledWith(externalUrl)
+    window.location.replace.mockRestore()
+  })
 })
 
 
