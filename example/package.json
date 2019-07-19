@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'",
+    "postinstall": "npm run build:ios",
     "preinstall": "node scripts/pre-install.js",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "cold-start": "npm start -- --reset-cache",
@@ -12,8 +14,8 @@
   },
   "dependencies": {
     "@expo/ex-navigation": "tipsi/ex-navigation#4.2.0",
-    "react": "16.5.0",
-    "react-native": "0.57.0",
+    "react": "16.8.6",
+    "react-native": "0.57.8",
     "tipsi-router": "file:../tipsi-router-latest.tgz"
   },
   "devDependencies": {
@@ -22,15 +24,16 @@
     "@babel/plugin-proposal-export-default-from": "7.0.0",
     "@babel/plugin-proposal-export-namespace-from": "7.0.0",
     "@babel/runtime": "7.0.0",
-    "appium": "1.8.1",
+    "babel-preset-react-native": "5.0.2",
+    "appium": "1.14.0",
     "babel-jest": "23.6.0",
     "metro-react-native-babel-preset": "0.45.2",
     "jest": "23.6.0",
     "prop-types": "15.6.0",
     "react-test-renderer": "16.5.0",
     "tape-async": "2.3.0",
-    "tipsi-appium-helper": "3.0.0",
-    "webdriverio": "4.7.1"
+    "tipsi-appium-helper": "3.3.0",
+    "webdriverio": "5.11.7"
   },
   "jest": {
     "preset": "react-native"

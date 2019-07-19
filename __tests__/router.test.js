@@ -92,6 +92,8 @@ describe('Router without interceptors', () => {
 
 
 describe('Router with interceptors', () => {
+  global.scrollTo = () => {}
+
   createStackNavigation('/', routes, true)
 
   const mock = jest.fn() // eslint-disable-line no-undef

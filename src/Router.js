@@ -5,6 +5,7 @@ import createBrowserHistory from 'history/createBrowserHistory'
 import createMemoryHistory from 'history/createMemoryHistory'
 import { compile } from 'path-to-regexp'
 import { parse, stringify } from 'qs'
+import { ScrollToTop } from './components'
 import RouterBase from './RouterBase'
 
 // Remove warnings
@@ -50,6 +51,7 @@ export default class TipsiRouter extends RouterBase {
   }
 
   createRouter(initialRoute, routes) {
+    const shouldScrollToTop = this.defaultRouteConfig.shouldScrollToTop || true
     const elements = Object.entries(routes).reduce((memo, [key, route]) => {
       const RouteContainer = route.modal ? ModalRoute : Route
       const RouteComponent = route.component
@@ -97,9 +99,11 @@ export default class TipsiRouter extends RouterBase {
 
     return (
       <Router history={this.history} {...this.defaultRouteConfig}>
-        <Switch>
-          {elements}
-        </Switch>
+        <ScrollToTop shouldScrollToTop={shouldScrollToTop}>
+          <Switch>
+            {elements}
+          </Switch>
+        </ScrollToTop>
       </Router>
     )
   }

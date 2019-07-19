@@ -3,6 +3,8 @@ import routes from './setup/routes'
 import Router, { createStackNavigation } from '..'
 
 describe('Router with sync params with state', () => {
+  global.scrollTo = () => {}
+
   const wrapper = mount(createStackNavigation('/', routes, true, {
     syncSearchWithState: true,
   }))
