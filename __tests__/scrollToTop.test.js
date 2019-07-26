@@ -16,6 +16,15 @@ describe('Router should scroll up after route change', () => {
     Router.push(null, Router.routes.about)
     wrapper.update()
 
-    expect(scrollToTop).toHaveBeenCalled()
+    setTimeout(() => {
+      expect(scrollToTop).toHaveBeenCalled()
+    })
+
+    Router.pop()
+    wrapper.update()
+
+    setTimeout(() => {
+      expect(scrollToTop).toHaveBeenCalled()
+    })
   })
 })

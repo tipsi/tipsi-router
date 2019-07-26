@@ -99,7 +99,7 @@ export default class TipsiRouter extends RouterBase {
 
     return (
       <Router history={this.history} {...this.defaultRouteConfig}>
-        <ScrollToTop shouldScrollToTop={shouldScrollToTop}>
+        <ScrollToTop shouldScrollToTop={shouldScrollToTop} routes={routes}>
           <Switch>
             {elements}
           </Switch>
