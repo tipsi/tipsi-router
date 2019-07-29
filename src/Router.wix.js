@@ -101,5 +101,10 @@ export default class TipsiRouter extends RouterBase {
     Navigation.dismissModal()
   }
 
+  /* eslint-disable-next-line */
+  redirect(url) {
+    window.location.replace(url)
+  }
+
   routeName = route => findKey(this.routes, { path: route.path })
 }

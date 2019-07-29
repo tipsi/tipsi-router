@@ -10,6 +10,7 @@ const navigationMethodFields = [
   'pop',
   'popToTop',
   'replace',
+  'redirect',
   'showModal',
   'dismissModal',
 ]

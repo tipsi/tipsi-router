@@ -56,4 +56,11 @@ export default {
     component: DummyComponent('WhiteListParams'),
     whiteListParams: ['a', 'c'],
   },
+  redirectFromRule: {
+    redirectFrom: '/path_to_redirect_from',
+    redirectTo: '/details'
+  },
+  redirectToAbout: {
+    redirectTo: '/about',
+  },
 }
