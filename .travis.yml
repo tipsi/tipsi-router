@@ -10,7 +10,7 @@ matrix:
 
     - os: osx
       language: objective-c
-      osx_image: xcode9.4
+      osx_image: xcode10.2
       env:
         - OS: 'ios'
 
@@ -51,8 +51,8 @@ script:
   # Add nvm command available to shell
   - source ~/.nvm/nvm.sh
 
-  # Installi a lts version of Node
-  - nvm install --lts
+  # Install latest version of Node
+  - nvm install 11.6.0
 
   # Run build script
   - npm run ci

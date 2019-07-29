@@ -7,7 +7,7 @@ import { AppRegistry } from 'react-native'
 import { name as appName } from './app.json'
 
 // eslint-disable-next-line
-Object.assign(babelHelpers, { applyDecoratedDescriptor, initializerDefineProperty })
+Object.assign({}, { applyDecoratedDescriptor, initializerDefineProperty })
 
 const App = require('./App').default
 

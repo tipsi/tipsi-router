@@ -1,6 +1,6 @@
 {
   "name": "tipsi-router",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "React and RN router solution",
   "main": "index.js",
   "scripts": {
@@ -65,9 +65,10 @@
     "pre-commit": "1.2.2",
     "react": "16.5.0",
     "react-dom": "16.5.0",
+    "prop-types": "15.7.2",
     "react-router-dom": "4.2.2",
     "react-router-modal": "1.3.5",
-    "tipsi-travis-scripts": "tipsi/tipsi-travis-scripts#c5d97a1"
+    "tipsi-travis-scripts": "tipsi/tipsi-travis-scripts#7c15c289619228ad0e03926c30fe391e934ed672"
   },
   "dependencies": {
     "path-to-regexp": "2.1.0"

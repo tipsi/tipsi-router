@@ -1,7 +1,17 @@
 {
-  "presets": ["module:metro-react-native-babel-preset"],
+  "presets": [
+    "@babel/preset-env",
+    "react-native",
+    "module:metro-react-native-babel-preset",
+    "@babel/preset-flow"
+  ],
   "plugins": [
-    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
     "@babel/plugin-proposal-export-default-from",
     "@babel/plugin-proposal-export-namespace-from"
   ]

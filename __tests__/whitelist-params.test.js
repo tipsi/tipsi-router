@@ -4,6 +4,8 @@ import Router, { createStackNavigation } from '..'
 
 
 describe('Router with sync whitelist params', () => {
+  global.scrollTo = () => {}
+
   const wrapper = mount(createStackNavigation('/', routes, true, {
     syncSearchWithState: {
       parseInt: true,
